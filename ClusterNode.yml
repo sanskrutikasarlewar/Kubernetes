@@ -1,0 +1,38 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-spot-cluster1
+  region: ap-southeast-2
+
+vpc:
+  id: "vpc-0137941396240ea52"
+  cidr: "172.31.0.0/16"
+  subnets:
+    public:
+      us-west-2a: { id: subnet-0225ed994a7624f36 }
+      us-west-2b: { id: subnet-0be53ea49453f6d15 }
+      us-west-2c: { id: subnet-074f9dacd578f4b83 }
+
+managedNodeGroups:
+  - name: ng-db1
+    instanceType: t2.medium
+    labels: { role: Admin-Access }
+    minSize: 2
+    maxSize: 3
+    ssh:
+      allow: true
+      publicKeyName: sydne
+    tags:
+      Name: ng-db1
+  - name: ng-spot1
+    instanceType: t2.medium
+    labels: { role: Admin-Access }
+    minSize: 3
+    maxSize: 4
+    spot: true
+    ssh:
+      allow: true
+      publicKeyName: sydne
+    tags:
+      Name: ng-spot1
