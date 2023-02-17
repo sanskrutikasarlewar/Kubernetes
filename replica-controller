@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-rc
+  labels:
+    app: nginx
+    type: front-end
+spec:
+  template: 
+    metadata: 
+      name: nginx-webserver
+      labels: 
+        app: nginx-webserver
+        type: frond-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+  nodeSelector:
+    name: ng-db1
+    hardware: t2-micro
+  replicas: 5
